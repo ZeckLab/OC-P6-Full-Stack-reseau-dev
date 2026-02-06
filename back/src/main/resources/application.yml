@@ -16,9 +16,9 @@ spring:
       hibernate:
         format_sql: true
   
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8080
+  ##security:
+    #oauth2:
+     # resourceserver:
+      #  jwt:
+       #   issuer-uri: http://localhost:8080
 
