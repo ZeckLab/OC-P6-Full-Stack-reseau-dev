@@ -1,0 +1,29 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot (Back)",
+            "request": "launch",
+            "mainClass": "com.openclassrooms.mddapi.MddApiApplication",
+            "projectName": "mdd-api",
+            "cwd": "${workspaceFolder}/back"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Angular Front",
+            "program": "${workspaceFolder}/front/node_modules/@angular/cli/bin/ng",
+            "args": [
+                "serve"
+            ],
+            "cwd": "${workspaceFolder}/front"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Lancer Front + Back",
+            "configurations": ["Spring Boot (Back)", "Angular Front"]
+        }
+    ]
+}
