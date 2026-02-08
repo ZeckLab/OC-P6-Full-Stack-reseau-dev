@@ -5,6 +5,7 @@ target/
 !**/src/test/**/target/
 
 .env
+src/main/resources/keys/*
 
 ### STS ###
 .apt_generated
