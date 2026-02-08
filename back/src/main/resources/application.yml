@@ -15,10 +15,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  
-  ##security:
-    #oauth2:
-     # resourceserver:
-      #  jwt:
-       #   issuer-uri: http://localhost:8080
 
+jwt:
+  private-key-path: ${JWT_PRIVATE_KEY_PATH}
+  public-key-path: ${JWT_PUBLIC_KEY_PATH}
+  expiration-ms: ${JWT_EXPIRATION_MS}
