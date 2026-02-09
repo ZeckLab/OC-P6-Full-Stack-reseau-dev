@@ -1,7 +1,5 @@
 package com.openclassrooms.mddapi.config;
 
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.security.KeyFactory;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
