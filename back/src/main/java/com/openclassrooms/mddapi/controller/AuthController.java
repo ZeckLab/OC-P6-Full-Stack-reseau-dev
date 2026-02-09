@@ -47,19 +47,19 @@ public class AuthController {
     */
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginDTO loginDto) {
-        log.info("Login attempt for email: {}", loginDto.getUsername());
+        log.info("POST /auth/login - Login attempt for identifier: {}", loginDto.getUsername());
 
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
 
             String token = jwtService.generateToken(authentication.getName());
-            log.info("Login successful for user: {}", authentication.getName());
+            log.info("POST /auth/login - Login successful for {}", authentication.getName());
 
             return ResponseEntity.ok(new AuthSuccessDTO(token));
 
         } catch (Exception e) {
-            log.warn("Login failed — invalid credentials for email/username: {}", loginDto.getUsername());
+            log.warn("POST /auth/login - Login failed for identifier: {}", loginDto.getUsername());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(new ApiResponseDTO(ErrorMessages.INVALID_CREDENTIALS, HttpStatus.UNAUTHORIZED.value()));
 
@@ -68,16 +68,16 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponseDTO> register(@Valid @RequestBody RegisterDTO registerDto) {
-        log.info("Registration attempt for email and username: {} {}", registerDto.getEmail(), registerDto.getUsername());
+        log.info("POST /auth/register - Registration attempt for email: {} and username: {}", registerDto.getEmail(), registerDto.getUsername());
 
         if (userRepository.existsByEmail(registerDto.getEmail())) {
-            log.warn("Registration failed — email already exists: {}", registerDto.getEmail());
+            log.warn("POST /auth/register - Registration failed (email already exists): {}", registerDto.getEmail());
             return ResponseEntity.badRequest()
                     .body(new ApiResponseDTO(ErrorMessages.EMAIL_ALREADY_IN_USE, HttpStatus.BAD_REQUEST.value()));
         }
 
         if (userRepository.existsByUsername(registerDto.getUsername())) {
-            log.warn("Registration failed — username already exists: {}", registerDto.getUsername());
+            log.warn("POST /auth/register - Registration failed (username already exists): {}"  , registerDto.getUsername());
             return ResponseEntity.badRequest()
                     .body(new ApiResponseDTO(ErrorMessages.USERNAME_ALREADY_IN_USE, HttpStatus.BAD_REQUEST.value()));
         }
@@ -88,7 +88,7 @@ public class AuthController {
         user.setHashPassword(passwordEncoder.encode(registerDto.getPassword()));
 
         userRepository.save(user);
-        log.info("New user registered with email {} and username {}", user.getEmail(), user.getUsername());
+        log.info("POST /auth/register - User registered successfully: email={}, username={}", user.getEmail(), user.getUsername());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponseDTO(SuccessMessages.USER_REGISTERED, HttpStatus.CREATED.value()));
     }

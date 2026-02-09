@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<ApiResponseDTO> handleUserNotFound(UsernameNotFoundException ex) {
-        log.warn("User not found: {}", ex.getMessage());
+        log.warn(ErrorMessages.USER_NOT_FOUND + "{}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(new ApiResponseDTO(ErrorMessages.USER_NOT_AUTHENTICATED, HttpStatus.UNAUTHORIZED.value()));
     }
@@ -47,9 +47,16 @@ public class GlobalExceptionHandler {
                 .body(new ApiResponseDTO(message, HttpStatus.BAD_REQUEST.value()));
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ApiResponseDTO> handleBadRequest(BadRequestException ex) {
+        log.warn(ErrorMessages.BAD_REQUEST + "{}", ex.getMessage());
+        return ResponseEntity.badRequest()
+                .body(new ApiResponseDTO(ex.getMessage(), HttpStatus.BAD_REQUEST.value()));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponseDTO> handleGenericException(Exception ex) {
-        log.error("Unhandled exception caught", ex);
+        log.error(ErrorMessages.UNHANDLED_EXCEPTION + "{}", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ApiResponseDTO(ErrorMessages.UNEXPECTED_ERROR, HttpStatus.INTERNAL_SERVER_ERROR.value()));
     }

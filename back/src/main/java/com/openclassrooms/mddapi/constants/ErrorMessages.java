@@ -12,6 +12,10 @@ public final class ErrorMessages {
     public static final String USER_NOT_AUTHENTICATED = "User not authenticated";
     public static final String UNAUTHORIZED_ACCESS = "Unauthorized access";
     public static final String UNEXPECTED_ERROR = "An unexpected error occurred";
+    public static final String USERNAME_CANNOT_CONTAIN_AT = "Username cannot contain '@' character";
+    
+    public static final String UNHANDLED_EXCEPTION = "Unhandled exception caught";
+    public static final String BAD_REQUEST = "Bad request: ";
 
     // Validation error messages (used in DTOs)
     public static final String EMAIL_REQUIRED = "Email is required";
