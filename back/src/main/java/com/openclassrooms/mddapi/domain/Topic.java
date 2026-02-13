@@ -22,7 +22,16 @@ public class Topic {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "subscriptions")
+    @Column(nullable = false,columnDefinition = "TEXT")
+    private String description;
+
+    
+    @ManyToMany
+    @JoinTable(
+        name = "user_topic_subscriptions",
+        joinColumns = @JoinColumn(name = "topic_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     @ToString.Exclude
     @JsonIgnore
     private Set<User> subscribers;
