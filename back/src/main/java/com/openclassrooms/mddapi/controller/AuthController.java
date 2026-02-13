@@ -5,42 +5,36 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.openclassrooms.mddapi.service.AuthService;
 import com.openclassrooms.mddapi.service.JwtService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import com.openclassrooms.mddapi.dto.RegisterDTO;
-import com.openclassrooms.mddapi.dto.ApiResponseDTO;
-import com.openclassrooms.mddapi.dto.AuthSuccessDTO;
-import com.openclassrooms.mddapi.dto.LoginDTO;
+import com.openclassrooms.mddapi.dto.request.LoginDTO;
+import com.openclassrooms.mddapi.dto.request.RegisterDTO;
+import com.openclassrooms.mddapi.dto.response.ApiResponseDTO;
+import com.openclassrooms.mddapi.dto.response.AuthSuccessDTO;
+import com.openclassrooms.mddapi.exception.UnauthorizedException;
 import com.openclassrooms.mddapi.constants.ErrorMessages;
 import com.openclassrooms.mddapi.constants.SuccessMessages;
-import com.openclassrooms.mddapi.domain.User;
-import com.openclassrooms.mddapi.repository.UserRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Slf4j
 @RestController
 @RequestMapping("/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-
-    public AuthController(AuthenticationManager authenticationManager, JwtService jwtService,
-            UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.authenticationManager = authenticationManager;
-        this.jwtService = jwtService;
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private final AuthService authService;
 
     /**
     * Login returns a signed JWT containing the user's username as subject.
@@ -58,11 +52,9 @@ public class AuthController {
 
             return ResponseEntity.ok(new AuthSuccessDTO(token));
 
-        } catch (Exception e) {
+        } catch (AuthenticationException e) {
             log.warn("POST /auth/login - Login failed for identifier: {}", loginDto.getUsername());
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ApiResponseDTO(ErrorMessages.INVALID_CREDENTIALS, HttpStatus.UNAUTHORIZED.value()));
-
+            throw new UnauthorizedException(ErrorMessages.INVALID_CREDENTIALS);
         }
     }
 
@@ -70,26 +62,9 @@ public class AuthController {
     public ResponseEntity<ApiResponseDTO> register(@Valid @RequestBody RegisterDTO registerDto) {
         log.info("POST /auth/register - Registration attempt for email: {} and username: {}", registerDto.getEmail(), registerDto.getUsername());
 
-        if (userRepository.existsByEmail(registerDto.getEmail())) {
-            log.warn("POST /auth/register - Registration failed (email already exists): {}", registerDto.getEmail());
-            return ResponseEntity.badRequest()
-                    .body(new ApiResponseDTO(ErrorMessages.EMAIL_ALREADY_IN_USE, HttpStatus.BAD_REQUEST.value()));
-        }
+        authService.register(registerDto);
 
-        if (userRepository.existsByUsername(registerDto.getUsername())) {
-            log.warn("POST /auth/register - Registration failed (username already exists): {}"  , registerDto.getUsername());
-            return ResponseEntity.badRequest()
-                    .body(new ApiResponseDTO(ErrorMessages.USERNAME_ALREADY_IN_USE, HttpStatus.BAD_REQUEST.value()));
-        }
-
-        User user = new User();
-        user.setEmail(registerDto.getEmail());
-        user.setUsername(registerDto.getUsername());
-        user.setHashPassword(passwordEncoder.encode(registerDto.getPassword()));
-
-        userRepository.save(user);
-        log.info("POST /auth/register - User registered successfully: email={}, username={}", user.getEmail(), user.getUsername());
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponseDTO(SuccessMessages.USER_REGISTERED, HttpStatus.CREATED.value()));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new ApiResponseDTO(SuccessMessages.USER_REGISTERED, HttpStatus.CREATED.value()));
     }
 }

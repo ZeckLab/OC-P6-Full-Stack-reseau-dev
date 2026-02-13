@@ -9,10 +9,12 @@ import lombok.*;
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString(onlyExplicitlyIncluded = true)
 public class User {
 
     @Id
@@ -28,15 +30,22 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @ManyToMany
-    @JoinTable(
-        name = "user_topic_subscriptions",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "topic_id")
-    )
-    
-    @ToString.Exclude
+    @ManyToMany(mappedBy = "subscribers")
     @JsonIgnore
     private Set<Topic> subscriptions;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        User user = (User) o;
+        return id != null && id.equals(user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

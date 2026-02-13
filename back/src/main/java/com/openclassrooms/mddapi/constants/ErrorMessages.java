@@ -16,6 +16,8 @@ public final class ErrorMessages {
     
     public static final String UNHANDLED_EXCEPTION = "Unhandled exception caught";
     public static final String BAD_REQUEST = "Bad request: ";
+    public static final String UNAUTHORIZED = "Unauthorized: ";
+    public static final String NOT_FOUND = "Not found: ";
 
     // Validation error messages (used in DTOs)
     public static final String EMAIL_REQUIRED = "Email is required";
@@ -26,6 +28,11 @@ public final class ErrorMessages {
     public static final String PASSWORD_INVALID = "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character";
 
     public static final String EMAIL_USERNAME_REQUIRED = "Email or username is required";
+
+    // Topic-related error messages
+    public static final String INVALID_TOPIC_ID = "Invalid topic ID";
+    public static final String SUBSCRIBE_ERROR = "Error subscribing to topic";
+    public static final String TOPIC_NOT_FOUND = "Topic not found: ";
 
     private ErrorMessages() {}
 }
