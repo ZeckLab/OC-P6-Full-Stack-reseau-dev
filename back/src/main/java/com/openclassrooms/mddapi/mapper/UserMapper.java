@@ -5,6 +5,7 @@ import org.mapstruct.Mapping;
 
 import com.openclassrooms.mddapi.domain.User;
 import com.openclassrooms.mddapi.dto.request.RegisterDTO;
+import com.openclassrooms.mddapi.dto.response.UpdatedUserDTO;
 import com.openclassrooms.mddapi.dto.response.UserDTO;
 
 @Mapper(componentModel = "spring")
@@ -15,4 +16,6 @@ public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "subscriptions", ignore = true)
     User toEntity(RegisterDTO registerDto);
+
+    UpdatedUserDTO toUpdatedUserDto(User user, String token);
 }

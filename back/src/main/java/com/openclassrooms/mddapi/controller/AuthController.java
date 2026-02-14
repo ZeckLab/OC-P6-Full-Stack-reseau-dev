@@ -40,7 +40,7 @@ public class AuthController {
     * Login returns a signed JWT containing the user's username as subject.
     */
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginDTO loginDto) {
+    public ResponseEntity<AuthSuccessDTO> login(@Valid @RequestBody LoginDTO loginDto) {
         log.info("POST /auth/login - Login attempt for identifier: {}", loginDto.getUsername());
 
         try {
@@ -63,6 +63,7 @@ public class AuthController {
         log.info("POST /auth/register - Registration attempt for email: {} and username: {}", registerDto.getEmail(), registerDto.getUsername());
 
         authService.register(registerDto);
+        log.info("POST /auth/register - User '{}' registered successfully", registerDto.getUsername());
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new ApiResponseDTO(SuccessMessages.USER_REGISTERED, HttpStatus.CREATED.value()));

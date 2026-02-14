@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -31,10 +32,9 @@ public class Comment {
     private User author;
 
     @ToString.Exclude
-    @JsonIgnore
+    @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "post_id")
-    private Post post;
-
+    @JoinColumn(name = "article_id")
+    private Article article;
 }
 

@@ -2,7 +2,6 @@ package com.openclassrooms.mddapi.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.http.HttpStatus;
 
 import com.openclassrooms.mddapi.mapper.UserMapper;
 import com.openclassrooms.mddapi.repository.UserRepository;
@@ -26,12 +25,12 @@ public class AuthService {
     public void register(RegisterDTO registerDto) {
 
         if (userRepository.existsByEmail(registerDto.getEmail())) {
-            log.warn("POST /auth/register - Registration failed (email already exists): {}", registerDto.getEmail());
+            log.warn("register - Registration failed (email already exists): {}", registerDto.getEmail());
             throw new BadRequestException(ErrorMessages.EMAIL_ALREADY_IN_USE);
         }
 
         if (userRepository.existsByUsername(registerDto.getUsername())) {
-            log.warn("POST /auth/register - Registration failed (username already exists): {}", registerDto.getUsername());
+            log.warn("register - Registration failed (username already exists): {}", registerDto.getUsername());
             throw new BadRequestException(ErrorMessages.USERNAME_ALREADY_IN_USE);
         }
 
@@ -39,6 +38,6 @@ public class AuthService {
         user.setHashPassword(passwordEncoder.encode(registerDto.getPassword()));
 
         userRepository.save(user);
-        log.info("POST /auth/register - User registered successfully: email={}, username={}", user.getEmail(), user.getUsername());
+        log.info("register - User registered successfully: email={}, username={}", user.getEmail(), user.getUsername());
     }
 }

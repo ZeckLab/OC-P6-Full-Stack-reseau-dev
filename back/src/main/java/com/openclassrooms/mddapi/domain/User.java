@@ -2,6 +2,8 @@ package com.openclassrooms.mddapi.domain;
 
 import java.util.Set;
 
+import org.hibernate.Hibernate;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
@@ -38,7 +40,7 @@ public class User {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o))
             return false;
         User user = (User) o;
         return id != null && id.equals(user.id);
