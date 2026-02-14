@@ -32,50 +32,36 @@ public class TopicService {
                 .orElseThrow(() -> new NotFoundException(ErrorMessages.TOPIC_NOT_FOUND + " " + id));
     }
 
-    public boolean subscribe(Long id, String username) {
-        User user = userService.getCurrentUser(username);
+    public boolean subscribe(Long id) {
+        User user = userService.getCurrentUser();
         Topic topic = getTopicById(id);
+        log.info("subscribe - User '{}' subscribing to topic '{}'", user.getUsername(), topic.getName());
 
         if (topic.getSubscribers().contains(user)) {
-            log.info("subscribe - User '{}' is already subscribed to topic '{}'", username, topic.getName());
+            log.info("subscribe - User '{}' is already subscribed to topic '{}'", user.getUsername(), topic.getName());
             return false; // User is already subscribed, nothing to do
         }
 
         boolean added = topic.getSubscribers().add(user); // Set - no need to check for duplicates
         topicRepository.save(topic);
-        log.info("subscribe - User '{}' subscribed to topic '{}'", username, topic.getName());
+        log.info("subscribe - User '{}' subscribed to topic '{}'", user.getUsername(), topic.getName());
         return added;
 
     }
 
-    public boolean unsubscribe(Long id, String name) {
-        User user = userService.getCurrentUser(name);
+    public boolean unsubscribe(Long id) {
+        User user = userService.getCurrentUser();
         Topic topic = getTopicById(id);
+        log.info("unsubscribe - User '{}' unsubscribing from topic '{}'", user.getUsername(), topic.getName());
 
         if (!topic.getSubscribers().contains(user)) {
-            log.info("unsubscribe - User '{}' is not subscribed to topic '{}'", name, topic.getName());
+            log.info("unsubscribe - User '{}' is not subscribed to topic '{}'", user.getUsername(), topic.getName());
             return false; // User is not subscribed, nothing to do
         }
 
         boolean removed = topic.getSubscribers().remove(user);
         topicRepository.save(topic);
-        log.info("unsubscribe - User '{}' unsubscribed from topic '{}'", name, topic.getName());
+        log.info("unsubscribe - User '{}' unsubscribed from topic '{}'", user.getUsername(), topic.getName());
         return removed;
-    }
-
-    /**
-     * Returns all topics enriched with the subscription status for the current
-     * user.
-     * Never returns null. Throws UserNotFoundException if the user does not exist.
-     */
-    public List<TopicWithSubscriptionDto> getAllTopicsWithCurrentUserSubscriptionStatus(String username) {
-        User user = userService.getCurrentUser(username);
-        return topicRepository.findAll().stream()
-                .map(topic -> new TopicWithSubscriptionDto(
-                        topic.getId(),
-                        topic.getName(),
-                        topic.getDescription(),
-                        topic.getSubscribers().contains(user)))
-                .toList();
     }
 }

@@ -34,5 +34,11 @@ public final class ErrorMessages {
     public static final String SUBSCRIBE_ERROR = "Error subscribing to topic";
     public static final String TOPIC_NOT_FOUND = "Topic not found: ";
 
+    // Article-related error messages
+    public static final String ARTICLE_NOT_FOUND = "Article not found: ";
+    public static final String TITLE_REQUIRED = "Title is required";
+    public static final String CONTENT_REQUIRED = "Content is required";
+    public static final String TOPIC_ID_REQUIRED = "Topic ID is required";
+
     private ErrorMessages() {}
 }

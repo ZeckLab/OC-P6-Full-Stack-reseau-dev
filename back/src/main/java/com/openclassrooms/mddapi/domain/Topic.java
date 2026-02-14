@@ -35,5 +35,4 @@ public class Topic {
     @ToString.Exclude
     @JsonIgnore
     private Set<User> subscribers;
-
 }
