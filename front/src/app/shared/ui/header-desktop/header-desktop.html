@@ -1,0 +1,26 @@
+<header class="header-desktop">
+  <div class="logo">
+    <img src="/assets/images/mdd-logo.png" alt="Logo" />
+  </div>
+
+  @if (isAuthenticated()) {
+    <nav class="desktop-nav">
+      <a (click)="logout()" class="logout-link">Se déconnecter</a>
+      <a
+        routerLink="/articles/feed"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Articles</a
+      >
+      <a
+        routerLink="/topics"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Thèmes</a
+      >
+      <a class="profile-icon" routerLink="/profile">
+        <img src="/assets/images/profile.svg" alt="Profil" />
+      </a>
+    </nav>
+  }
+</header>

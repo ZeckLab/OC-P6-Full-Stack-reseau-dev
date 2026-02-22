@@ -1,5 +1,9 @@
 package com.openclassrooms.mddapi.config;
 
+import java.util.Arrays;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,6 +16,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.openclassrooms.mddapi.config.security.JwtAuthenticationFilter;
 
@@ -21,6 +28,9 @@ import com.openclassrooms.mddapi.config.security.JwtAuthenticationFilter;
  */
 @Configuration
 public class SecurityConfig {
+    
+    @Value("${cors.allowed-origins}")
+    private String allowedOrigins;
 
     /**
      * Configures the application's security filter chain.
@@ -44,7 +54,7 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // pas de session
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/auth/login", "/auth/register").permitAll() // endpoints publics
-                    .anyRequest().authenticated() // tout le reste protégé
+                    .anyRequest().authenticated()
             )
             .addFilterBefore(new JwtAuthenticationFilter(jwtDecoder),
                 UsernamePasswordAuthenticationFilter.class)
@@ -59,8 +69,34 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) {
         return config.getAuthenticationManager();
     }
+
+    /**
+     * Configures CORS settings for the application.
+     * <p>
+     * Allowed origins are loaded from the {@code cors.allowed-origins} property,
+     * enabling flexibility across environments (e.g., dev, staging, prod).
+     *
+     * @return the configured {@link CorsConfigurationSource}
+     */
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        List<String> origins = Arrays.stream(allowedOrigins.split(","))
+                .map(String::trim)
+                .toList();
+
+        config.setAllowedOrigins(origins);
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        config.setAllowCredentials(false);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
+
 }
 
