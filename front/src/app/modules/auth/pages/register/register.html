@@ -1,0 +1,89 @@
+<div class="auth-layout register-layout">
+  <div class="left">
+    <!-- Back navigation button -->
+    <button class="back-btn" (click)="goBack()">←</button>
+  </div>
+
+  <div class="center">
+    <h1>S'inscrire</h1>
+
+    <!-- Registration form -->
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+      <!-- Email field -->
+      <label>
+        Adresse Email
+        <input type="text" formControlName="email" placeholder="'toto@toto.com'"/>
+      </label>
+
+      <!-- Email validation errors -->
+      @if (form.controls.email.invalid
+        && (form.controls.email.dirty || form.controls.email.touched)
+        && form.controls.email.errors) {
+        <p class="error">
+          @if (form.controls.email.errors['required']) {
+            Ce champ est requis
+          } @else if (form.controls.email.errors['emailInvalid']) {
+            Email invalide
+          }
+        </p>
+      }
+
+      <!-- Username field -->
+      <label>
+        Nom d'utilisateur
+        <input type="text" formControlName="username" placeholder="'toto'"/>
+      </label>
+
+      <!-- Username validation errors -->
+      @if (form.controls.username.invalid
+        && (form.controls.username.dirty || form.controls.username.touched)
+        && form.controls.username.errors) {
+        <p class="error">
+          @if (form.controls.username.errors['required']) {
+            Ce champ est requis
+          } @else if (form.controls.username.errors['minlength']) {
+            Nom d'utilisateur invalide
+          }
+        </p>
+      }
+
+      <!-- Password field -->
+      <label>
+        Mot de passe
+        <input type="password" formControlName="password" placeholder="password"/>
+      </label>
+
+      <!-- Password validation errors -->
+      @if (form.controls.password.invalid
+        && (form.controls.password.dirty || form.controls.password.touched)
+        && form.controls.password.errors) {
+        <ul class="error">
+          @if (form.controls.password.errors['required']) {
+            <li>Ce champ est requis</li>
+          }
+          @if (!form.controls.password.errors['passwordWeak'].hasLowercase) {
+            <li>Doit contenir une lettre minuscule</li>
+          }
+          @if (!form.controls.password.errors['passwordWeak'].hasUppercase) {
+            <li>Doit contenir une lettre majuscule</li>
+          }
+          @if (!form.controls.password.errors['passwordWeak'].hasDigit) {
+            <li>Doit contenir un chiffre</li>
+          }
+          @if (!form.controls.password.errors['passwordWeak'].hasSpecial) {
+            <li>Doit contenir un caractère spécial</li>
+          }
+          @if (!form.controls.password.errors['passwordWeak'].hasMinLength) {
+            <li>Doit contenir au moins 8 caractères</li>
+          }
+        </ul>
+      }
+
+      <!-- Submit button -->
+      <button type="submit" [disabled]="form.invalid">Se connecter</button>
+    </form>
+  </div>
+
+  <div class="right"></div>
+</div>

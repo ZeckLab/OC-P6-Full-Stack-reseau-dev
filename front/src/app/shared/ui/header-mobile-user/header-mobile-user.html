@@ -1,0 +1,20 @@
+<header class="header-mobile-user">
+  <div class="logo">
+    <img src="/assets/images/mdd-logo.png" alt="Logo" />
+  </div>
+
+  <button class="burger-btn" (click)="toggleMenu()">☰</button>
+    <nav class="mobile-menu" [class.open]="menuOpen()">
+      <div class="menu-items">
+        <a (click)="logout()" class="logout-link">Se déconnecter</a>
+        <a routerLink="/articles/feed" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }" (click)="menuOpen.set(false)">Articles</a>
+        <a routerLink="/topics" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }" (click)="menuOpen.set(false)">Thèmes</a>
+      </div>
+
+      <div class="menu-footer">
+        <a class="profile-icon" routerLink="/profile" (click)="menuOpen.set(false)">
+          <img src="/assets/images/profile.svg" alt="Profil" />
+        </a>
+      </div>
+    </nav>
+</header>

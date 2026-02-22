@@ -14,16 +14,22 @@ spring:
     show-sql: true
     properties:
       hibernate:
-        format_sql: true
+        "[format_sql]": true
     defer-datasource-initialization: true
   
   sql:
     init:
       mode: always
 
-
-
 jwt:
   private-key-path: ${JWT_PRIVATE_KEY_PATH}
   public-key-path: ${JWT_PUBLIC_KEY_PATH}
   expiration-ms: ${JWT_EXPIRATION_MS}
+
+# CORS Configuration
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS}
+
+server:
+  servlet:
+    context-path: /api

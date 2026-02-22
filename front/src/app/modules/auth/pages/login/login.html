@@ -1,0 +1,55 @@
+<div class="auth-layout">
+  <div class="left">
+    <!-- Back navigation button -->
+    <button class="back-btn" (click)="goBack()">←</button>
+  </div>
+
+  <div class="center">
+    <h1>Se connecter</h1>
+
+    <!-- Login form -->
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+      <!-- Email or username field -->
+      <label>
+        Email ou nom d'utilisateur
+        <input type="text" formControlName="emailOrUsername" placeholder="'toto@toto.com' ou 'toto'"/>
+      </label>
+
+      <!-- Email/username validation errors -->
+      @if (form.controls.emailOrUsername.invalid
+        && (form.controls.emailOrUsername.dirty || form.controls.emailOrUsername.touched)
+        && form.controls.emailOrUsername.errors) {
+        <p class="error">
+          @if (form.controls.emailOrUsername.errors['required']) {
+            Ce champ est requis
+          } @else if (form.controls.emailOrUsername.errors['emailInvalid']) {
+            Email invalide
+          }
+        </p>
+      }
+
+      <!-- Password field -->
+      <label>
+        Mot de passe
+        <input type="password" formControlName="password" placeholder="password"/>
+      </label>
+
+      <!-- Password validation errors -->
+      @if (form.controls.password.invalid
+        && (form.controls.password.dirty || form.controls.password.touched)
+        && form.controls.password.errors) {
+        <p class="error">
+          @if (form.controls.password.errors['required']) {
+            Ce champ est requis
+          }
+        </p>
+      }
+
+      <!-- Submit button -->
+      <button type="submit" [disabled]="form.invalid">Se connecter</button>
+    </form>
+  </div>
+
+  <div class="right"></div>
+</div>

@@ -1,0 +1,16 @@
+@if (showHeader()) {
+  <!-- Desktop -->
+  @if (!isMobile()) {
+    <header-desktop [isAuthenticated]="isAuthenticated()"> </header-desktop>
+  }
+
+  <!-- Mobile : no authenticated -->
+  @if (isMobile() && !isAuthenticated()) {
+    <header-mobile-guest />
+  }
+
+  <!-- Mobile : authenticated -->
+   @if(isMobile() && isAuthenticated()) {
+     <header-mobile-user /> 
+   }
+}
