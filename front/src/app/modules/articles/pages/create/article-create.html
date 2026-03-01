@@ -1,0 +1,69 @@
+<section class="article-create">
+  <button class="back-btn" (click)="goBack()">
+    <img src="assets/icons/back.svg" alt="Retour" />
+  </button>
+  <div class="article">
+    <h2>Créer un nouvel article</h2>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="form-group">
+        <div class="form-field">
+          <select formControlName="topicId">
+            <option value="">Sélectionnez un thème</option>
+            @for (t of topics(); track t.id) {
+              <option [value]="t.id">{{ t.name }}</option>
+            }
+          </select>
+
+          @if (
+            form.controls.topicId.invalid &&
+            (form.controls.topicId.dirty || form.controls.topicId.touched) &&
+            form.controls.topicId.errors
+          ) {
+            <p class="error">
+              @if (form.controls.topicId.errors['required']) {
+                Ce champ est requis
+              }
+            </p>
+          }
+        </div>
+
+        <div class="form-field">
+          <input formControlName="title" placeholder="Titre de l'article" />
+
+          @if (
+            form.controls.title.invalid &&
+            (form.controls.title.dirty || form.controls.title.touched) &&
+            form.controls.title.errors
+          ) {
+            <p class="error">
+              @if (form.controls.title.errors['required']) {
+                Ce champ est requis
+              } @else if (form.controls.title.errors['minlength']) {
+                Titre invalide (3 caractères minimum)
+              }
+            </p>
+          }
+        </div>
+
+        <div class="form-field">
+          <textarea formControlName="content" placeholder="Contenu de l'article"></textarea>
+
+          @if (
+            form.controls.content.invalid &&
+            (form.controls.content.dirty || form.controls.content.touched) &&
+            form.controls.content.errors
+          ) {
+            <p class="error">
+              @if (form.controls.content.errors['required']) {
+                Ce champ est requis
+              } @else if (form.controls.content.errors['minlength']) {
+                Contenu invalide (10 caractères minimum)
+              }
+            </p>
+          }
+        </div>
+      </div>
+      <button type="submit" [disabled]="form.invalid">Créer l'article</button>
+    </form>
+  </div>
+</section>

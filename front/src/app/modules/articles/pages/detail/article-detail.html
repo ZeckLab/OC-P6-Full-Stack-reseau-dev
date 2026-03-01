@@ -1,0 +1,50 @@
+<section class="article-detail">
+  <button class="back-btn" (click)="goBack()">
+    <img src="assets/icons/back.svg" alt="Retour" />
+  </button>
+  @if (error() === 'not-found') {
+    <div class="not-found">
+      <h2>Article introuvable</h2>
+      <p>L’article demandé n’existe pas ou a été supprimé.</p>
+    </div>
+  } @else if (article(); as a) {
+    <div class="article">
+      <app-article-header
+        [article]="a"
+        [showTopic]="true"
+        [titleSize]="'1.5rem'"
+        [metaSize]="'1.25rem'"
+      />
+
+      <p class="content">
+        {{ a.content }}
+      </p>
+    </div>
+  }
+</section>
+<hr />
+@if (article()) {
+  <section class="article-comments">
+    <h3>Commentaires</h3>
+    <div class="add-comment">
+      <input
+        type="text"
+        placeholder="Écrivez ici votre commentaire"
+        [value]="newComment()"
+        (input)="newComment.set($any($event.target).value)"
+      />
+
+      <button class="send" (click)="sendComment()">
+        <img src="assets/icons/send.svg" alt="Envoyer" />
+      </button>
+    </div>
+
+    @if (commentsError()) {
+      <p class="error">{{ commentsError() }}</p>
+    }
+
+    @for (c of comments(); track c.id) {
+      <app-comment [comment]="c"></app-comment>
+    }
+  </section>
+}

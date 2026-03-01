@@ -1,4 +1,6 @@
-<app-header-resolver [showHeader]="showHeader()"/>
+<div class="app-container">
+  <app-header-resolver [showHeader]="showHeader()" />
+  <router-outlet />
+</div>
 
-<router-outlet />
 <app-toast />

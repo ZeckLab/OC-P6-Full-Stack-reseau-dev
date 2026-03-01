@@ -33,24 +33,17 @@ export class ErrorMapper {
       return 'Vous devez être connecté';
 
   // Fallback to generic HTTP errors (safe for all other modules)
-  const generic = this.mapHttpError(error.status);
-  if (generic) return generic;
-
-  return 'Une erreur est survenue';
+  return this.mapHttpError(error.status) ?? 'Une erreur est survenue';
 }
 
 
   // Article Errors
   mapArticleError(error: any): string {
-    const generic = this.mapHttpError(error.status);
-    if (generic) return generic;
+    return this.mapHttpError(error.status) ?? 'Une erreur est survenue';
+  }
 
-    const message = error.error?.message;
-
-    if (message === 'Article not found') {
-      return 'Article introuvable';
-    }
-
-    return 'Une erreur est survenue';
+  // Topic Errors
+  mapTopicError(error: any): string {
+    return this.mapHttpError(error.status) ?? 'Une erreur est survenue';
   }
 }

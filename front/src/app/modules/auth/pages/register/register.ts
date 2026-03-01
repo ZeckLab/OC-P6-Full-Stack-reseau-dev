@@ -3,7 +3,7 @@ import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Auth } from '../../auth';
 import { AuthValidators } from '../../validators/auth.validator';
-import { ErrorMapper } from '../../../../core/errors/error-mapper';
+import { ErrorMapper } from '../../../../core/messages/error-mapper';
 import { ToastService } from '../../../../shared/ui/toast/toast.service';
 
 @Component({

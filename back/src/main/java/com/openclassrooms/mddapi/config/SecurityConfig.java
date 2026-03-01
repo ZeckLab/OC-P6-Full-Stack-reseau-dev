@@ -28,37 +28,43 @@ import com.openclassrooms.mddapi.config.security.JwtAuthenticationFilter;
  */
 @Configuration
 public class SecurityConfig {
-    
+
     @Value("${cors.allowed-origins}")
     private String allowedOrigins;
 
     /**
      * Configures the application's security filter chain.
      *
-     * - Disables CSRF (API REST stateless)
-     * - Enforces stateless session management
+     * - Disables CSRF (stateless REST API)
+     * - Uses stateless session management
+     * - Registers a custom AuthenticationEntryPoint for unauthorized requests
      * - Allows public access to authentication endpoints
      * - Requires authentication for all other routes
-     * - Adds a custom JWT authentication filter before Spring Security's username/password filter
+     * - Adds the custom JWT authentication filter before the
+     * UsernamePasswordAuthenticationFilter
      * - Enables CORS with default configuration
      *
-     * @param http the HttpSecurity builder
-     * @param jwtDecoder the JWT decoder used by the authentication filter
+     * @param http              the HttpSecurity builder
+     * @param jwtDecoder        the JWT decoder used by the authentication filter
+     * @param authEntryPointJwt custom entry point for handling 401 responses
      * @return the configured SecurityFilterChain
      * @throws Exception in case of configuration errors
      */
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtDecoder jwtDecoder) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtDecoder jwtDecoder,
+            AuthEntryPointJwt authEntryPointJwt) throws Exception {
+
         http
-            .csrf(csrf -> csrf.disable()) // API REST → pas de CSRF
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // pas de session
-            .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/auth/login", "/auth/register").permitAll() // endpoints publics
-                    .anyRequest().authenticated()
-            )
-            .addFilterBefore(new JwtAuthenticationFilter(jwtDecoder),
-                UsernamePasswordAuthenticationFilter.class)
-            .cors(Customizer.withDefaults());
+                .csrf(csrf -> csrf.disable())
+                .exceptionHandling(ex -> ex.authenticationEntryPoint(authEntryPointJwt))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/auth/login", "/auth/register").permitAll() // endpoints publics
+                        .anyRequest().authenticated())
+                .addFilterBefore(new JwtAuthenticationFilter(jwtDecoder, authEntryPointJwt),
+                        UsernamePasswordAuthenticationFilter.class)
+                .cors(Customizer.withDefaults());
 
         return http.build();
     }
@@ -99,4 +105,3 @@ public class SecurityConfig {
     }
 
 }
-

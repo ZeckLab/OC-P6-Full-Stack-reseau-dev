@@ -1,0 +1,81 @@
+.article-detail {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1rem;
+
+  .back-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-top: 1.4rem;
+
+    img {
+      width: 2.4rem;
+      height: 2.4rem;
+    }
+  }
+
+  .article {
+    margin: 1.5rem 0 0.5rem;
+
+    .content {
+      margin-top: 1.5rem;
+      font-size: 20px;
+      line-height: 1.5;
+    }
+  }
+
+  .not-found {
+    h2 {
+      margin: 1.5rem 0 0.5rem;
+      font-size: 24px;
+    }
+  }
+}
+
+.article-comments {
+  margin-top: 2rem;
+
+  .add-comment {
+    display: flex;
+    align-items: center;
+    margin: 1rem 0;
+    gap: 0.5rem;
+
+    input {
+      flex: 1;
+      border: none;
+      background: #f4f4f4;
+      padding: 0.75rem 1rem;
+      border-radius: 0.625rem;
+      font-size: 1rem;
+      outline: none;
+      min-height: 5rem;
+    }
+
+    .send {
+      border: none;
+      background: transparent;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: background 0.2s;
+
+      @media (max-width: 600px) {
+        img {
+          width: 2.2rem;
+          height: 2.2rem;
+        }
+      }
+
+      &:hover {
+        background: #eee;
+      }
+    }
+  }
+}

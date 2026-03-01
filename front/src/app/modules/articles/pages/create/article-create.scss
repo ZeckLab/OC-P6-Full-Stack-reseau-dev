@@ -1,0 +1,139 @@
+.article-create {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1rem;
+
+  @media(max-width: 450px){
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .back-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+
+    @media(max-width: 450px){
+        margin-top: 0;
+    }
+
+    img {
+      width: 2.4rem;
+      height: 2.4rem;
+    }
+  }
+
+  .article {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+
+    @media(max-width: 450px) {
+        align-items: center;
+        width: 100%;
+    }
+
+    h2 {
+      align-self: center;
+
+      @media(max-width: 450px) {
+        font-size: 1.3rem;
+        margin-top: 0;
+    }
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .form-group {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: column;
+      width: 100%;
+      gap: 1rem;
+      max-width: 20rem;
+
+      .form-field {
+        width: 100%;
+      }
+
+      // Input styling
+      input,
+      select,
+      textarea {
+        padding: 0.75rem;
+        border-radius: 0.75rem;
+        border: 2px solid #7763c5;
+        font-size: 1.25rem;
+        width: 100%;
+        margin-top: 0.25rem;
+        font-family: inherit;
+
+        @media(max-width: 450px){
+            font-size: 1rem;
+        }
+      }
+
+      textarea {
+        min-height: 13rem;
+        height: auto;
+      }
+
+      // Focus state for accessibility and clarity
+      input:focus, select:focus, textarea:focus {
+        outline: none;
+        border: 2px solid #7763c5;
+        box-shadow: 0 0 0 3px rgba(119, 99, 197, 0.3);
+      }
+
+      // Error state for invalid inputs
+      input.ng-invalid.ng-touched,
+      input.ng-invalid.ng-dirty,
+      select.ng-invalid.ng-touched,
+      select.ng-invalid.ng-dirty,
+      textarea.ng-invalid.ng-touched,
+      textarea.ng-invalid.ng-dirty {
+        border: 2px solid #e53935;
+        box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.2);
+      }
+
+      // Error message styling
+      .error {
+        color: #e53935;
+        font-size: 0.85rem;
+        list-style: none;
+        padding-left: 0;
+        font-weight: 500;
+        margin: 0.5rem 0 0.25rem 0;
+      }
+    }
+
+    // Submit button
+    button {
+      margin-top: 1.5rem;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      background: #7763c5;
+      color: white;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+    }
+
+    // Disabled state for submit button
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
