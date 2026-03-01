@@ -4,7 +4,7 @@ import { Auth } from '../../auth';
 import { Router } from '@angular/router';
 import { AuthValidators } from '../../validators/auth.validator';
 import { ToastService } from '../../../../shared/ui/toast/toast.service';
-import { ErrorMapper } from '../../../../core/errors/error-mapper';
+import { ErrorMapper } from '../../../../core/messages/error-mapper';
 
 @Component({
   selector: 'app-login',

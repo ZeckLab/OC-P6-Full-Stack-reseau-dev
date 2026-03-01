@@ -1,2 +1,16 @@
-<p>Feed de l'utilisateur arrive bientôt</p>
-
+<section class="feed-layout">
+  <div class="feed-header">
+    <button class="create-btn" routerLink="/articles/new">Créer un article</button>
+    <div class="sort" (click)="toggleSort()">
+      <span>Trier par</span>
+      <span class="arrow">
+        {{ sortDirection() === 'asc' ? '↑' : '↓' }}
+      </span>
+    </div>
+  </div>
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  } @else {
+    <app-article-list [articles]="articles() || []" />
+  }
+</section>

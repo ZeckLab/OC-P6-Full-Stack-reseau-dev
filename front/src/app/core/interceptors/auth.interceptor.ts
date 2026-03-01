@@ -2,10 +2,16 @@ import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Auth } from '../../modules/auth/auth';
 import { environment } from '../../../environment';
+import { catchError, throwError } from 'rxjs';
+import { Router } from '@angular/router';
+import { ToastService } from '../../shared/ui/toast/toast.service';
+import { MESSAGES } from '../messages/constants';
 
 // Intercepts outgoing HTTP requests to attach API URL and auth token
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const auth = inject(Auth);
+  const toast = inject(ToastService);
+  const router = inject(Router);
   const token = auth.token();
 
   // Prefix API URL if the request URL is relative
@@ -16,7 +22,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     });
   }
 
-  // Add Authorization header if token exists
+  // Add Authorization header only if token is available
   if (!token) {
     return next(apiReq);
   }
@@ -27,6 +33,19 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     },
   });
 
-  return next(authReq);
-};
+  return next(authReq).pipe(
+  catchError((error) => {
+    const message = error.error?.message;
 
+    // Handle invalid or expired JWT
+    if (message === 'Invalid token') {
+      toast.show(MESSAGES.INVALID_TOKEN, 'error');
+      auth.logout();
+      router.navigate(['/auth/login']);
+    }
+
+    return throwError(() => error);
+  }),
+);
+
+};

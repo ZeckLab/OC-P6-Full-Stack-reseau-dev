@@ -18,6 +18,7 @@ public final class ErrorMessages {
     public static final String BAD_REQUEST = "Bad request: ";
     public static final String UNAUTHORIZED = "Unauthorized: ";
     public static final String NOT_FOUND = "Not found: ";
+    public static final String INVALID_TOKEN = "Invalid token";
 
     // Validation error messages (used in DTOs)
     public static final String EMAIL_REQUIRED = "Email is required";
