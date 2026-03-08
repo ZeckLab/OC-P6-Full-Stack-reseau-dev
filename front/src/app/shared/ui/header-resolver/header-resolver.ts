@@ -2,8 +2,9 @@ import { Component, inject, input, signal, WritableSignal } from '@angular/core'
 import { HeaderDesktop } from '../header-desktop/header-desktop';
 import { HeaderMobileGuest } from '../header-mobile-guest/header-mobile-guest';
 import { HeaderMobileUser } from '../header-mobile-user/header-mobile-user';
-import { Auth } from '../../../modules/auth/auth';
+import { Auth } from '../../../modules/auth/services/auth';
 
+/** Chooses which header to display (desktop, mobile guest, mobile user) based on screen size and authentication. */
 @Component({
   selector: 'app-header-resolver',
   standalone: true,

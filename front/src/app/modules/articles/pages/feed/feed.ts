@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Articles } from '../../articles';
+import { Articles } from '../../services/articles';
 import { ArticleList } from '../../components/list/article-list';
 import { RouterModule } from '@angular/router';
 
@@ -16,10 +16,12 @@ export class Feed implements OnInit {
   sortDirection = this.articlesFacade.sortDirection;
   error = this.articlesFacade.error;
 
+  /** Loads the article feed on init. */
   ngOnInit() {
-    this.articlesFacade.getFeed();
+    this.articlesFacade.getFeed().subscribe();
   }
 
+  /** Toggles sorting direction. */
   toggleSort() {
     this.articlesFacade.toggleSort();
   }

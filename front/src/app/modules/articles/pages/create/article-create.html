@@ -21,7 +21,7 @@
           ) {
             <p class="error">
               @if (form.controls.topicId.errors['required']) {
-                Ce champ est requis
+                {{ FORM_MESSAGES.REQUIRED }}
               }
             </p>
           }
@@ -37,9 +37,9 @@
           ) {
             <p class="error">
               @if (form.controls.title.errors['required']) {
-                Ce champ est requis
+                {{ FORM_MESSAGES.REQUIRED }}
               } @else if (form.controls.title.errors['minlength']) {
-                Titre invalide (3 caractères minimum)
+                {{ FORM_MESSAGES.MIN_LENGTH_TITLE }}
               }
             </p>
           }
@@ -55,9 +55,9 @@
           ) {
             <p class="error">
               @if (form.controls.content.errors['required']) {
-                Ce champ est requis
+                {{ FORM_MESSAGES.REQUIRED }}
               } @else if (form.controls.content.errors['minlength']) {
-                Contenu invalide (10 caractères minimum)
+                {{ FORM_MESSAGES.MIN_LENGTH_CONTENT }}
               }
             </p>
           }

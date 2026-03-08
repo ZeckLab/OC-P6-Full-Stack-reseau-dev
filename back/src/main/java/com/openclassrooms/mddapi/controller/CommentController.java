@@ -23,6 +23,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
+/**
+ * REST controller responsible for managing comments on articles.
+ * Provides endpoints for creating comments and retrieving all comments for a given article.
+ */
 @Slf4j
 @RestController
 @RequestMapping("/articles")
@@ -32,6 +36,13 @@ public class CommentController {
     private final CommentService commentService;
     private final CommentMapper commentMapper;
 
+    /**
+     * Adds a new comment to the specified article.
+     *
+     * @param id  the ID of the article to which the comment will be added
+     * @param dto the payload containing the comment's content
+     * @return CommentDTO representing the newly created comment, with HTTP 201 status
+     */
     @PostMapping("/{id}/comments")
     public ResponseEntity<CommentDTO> addComment(@PathVariable Long id, @Valid @RequestBody CreateCommentDTO dto) {
         log.info("POST /articles/{}/comments - Adding comment", id);
@@ -42,6 +53,12 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(commentMapper.toDto(comment));
     }
 
+    /**
+     * Retrieves all comments associated with the specified article.
+     *
+     * @param id the ID of the article whose comments should be retrieved
+     * @return a list of CommentDTO objects representing the article's comments
+     */
     @GetMapping("/{id}/comments")
     public ResponseEntity<List<CommentDTO>> getComments(@PathVariable Long id) {
         log.info("GET /articles/{}/comments - Retrieving comments", id);

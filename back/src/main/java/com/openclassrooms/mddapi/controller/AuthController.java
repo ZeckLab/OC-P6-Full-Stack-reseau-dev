@@ -26,6 +26,10 @@ import com.openclassrooms.mddapi.exception.UnauthorizedException;
 import com.openclassrooms.mddapi.constants.ErrorMessages;
 import com.openclassrooms.mddapi.constants.SuccessMessages;
 
+/**
+ * REST controller responsible for handling authentication operations,
+ * including user login and registration.
+ */
 @Slf4j
 @RestController
 @RequestMapping("/auth")
@@ -37,8 +41,13 @@ public class AuthController {
     private final AuthService authService;
 
     /**
-    * Login returns a signed JWT containing the user's username as subject.
-    */
+     * Authenticates a user using their username and password.
+     * If authentication succeeds, a signed JWT token is returned.
+     *
+     * @param loginDto the login credentials (username and password)
+     * @return AuthSuccessDTO containing the generated JWT token
+     * @throws UnauthorizedException if authentication fails due to invalid credentials
+     */
     @PostMapping("/login")
     public ResponseEntity<AuthSuccessDTO> login(@Valid @RequestBody LoginDTO loginDto) {
         log.info("POST /auth/login - Login attempt for identifier: {}", loginDto.getUsername());
@@ -58,6 +67,12 @@ public class AuthController {
         }
     }
 
+    /**
+     * Registers a new user account.
+     *
+     * @param registerDto the registration payload containing email, username, and password
+     * @return ApiResponseDTO indicating successful registration with HTTP 201 status
+     */
     @PostMapping("/register")
     public ResponseEntity<ApiResponseDTO> register(@Valid @RequestBody RegisterDTO registerDto) {
         log.info("POST /auth/register - Registration attempt for email: {} and username: {}", registerDto.getEmail(), registerDto.getUsername());

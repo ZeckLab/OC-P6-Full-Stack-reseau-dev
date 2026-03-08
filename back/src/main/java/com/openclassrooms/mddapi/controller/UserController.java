@@ -1,8 +1,6 @@
 package com.openclassrooms.mddapi.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +20,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestBody;
 
+/**
+ * REST controller responsible for managing operations related to the authenticated user,
+ * including retrieving the current user's profile and updating account information.
+ */
 @Slf4j
 @RestController
 @RequestMapping("/users")
@@ -32,6 +34,11 @@ public class UserController {
     private final UserService userService;
     private final JwtService jwtService;
 
+    /**
+     * Retrieves the profile information of the currently authenticated user.
+     *
+     * @return UserDTO containing the user's public profile data
+     */
     @GetMapping("/me")
     public ResponseEntity<UserDTO> getCurrentUser() {
         log.info("GET /users/me - Fetching current user");
@@ -42,6 +49,13 @@ public class UserController {
         return ResponseEntity.ok().body(userMapper.toDto(user));
     }
 
+    /**
+     * Updates the profile information of the currently authenticated user.
+     * If the username is changed, a new JWT token is generated and returned.
+     *
+     * @param updateUserDTO the payload containing the fields to update
+     * @return UpdatedUserDTO containing updated user information and an optional new JWT token
+     */
     @PatchMapping("/me")
     public ResponseEntity<UpdatedUserDTO> updateCurrentUser(@Valid @RequestBody UpdateUserDTO updateUserDTO) {
         log.info("PATCH /users/me - Update request received");

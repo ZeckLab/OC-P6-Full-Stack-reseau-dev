@@ -24,6 +24,11 @@ export const routes: Routes = [
     loadChildren: () => import('./modules/topics/topics.routes').then((m) => m.TOPICS_ROUTES),
   },
   {
+    path: 'account',
+    canActivate: [authGuard],
+    loadComponent: () => import('./modules/users/pages/account/account').then((m) => m.Account),
+  },
+  {
     path: '**',
     loadComponent: () =>
       import('./core/not-found/not-found').then((m) => m.NotFound),

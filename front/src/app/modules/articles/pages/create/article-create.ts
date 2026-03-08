@@ -3,9 +3,11 @@ import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ErrorMapper } from '../../../../core/messages/error-mapper';
 import { ToastService } from '../../../../shared/ui/toast/toast.service';
-import { Articles } from '../../articles';
-import { Topics } from '../../../topics/topics';
+import { Articles } from '../../services/articles';
+import { Topics } from '../../../topics/services/topics';
+import { FORM_MESSAGES } from '../../../../core/messages/form-messages';
 
+/** Displays the article creation form and handles article submission. */
 @Component({
   selector: 'app-article-create',
   standalone: true,
@@ -20,6 +22,8 @@ export class ArticleCreate implements OnInit {
   private readonly errorMapper = inject(ErrorMapper);
   private readonly toast = inject(ToastService);
   private readonly topicsFacade = inject(Topics);
+
+  readonly FORM_MESSAGES = FORM_MESSAGES;
 
   // Reactive article creation form with custom validators
   readonly form = this.fb.group({

@@ -1,3 +1,4 @@
+// Shared DTOs for authentication API
 export type LoginRequest = {
   username: string;
   password: string;

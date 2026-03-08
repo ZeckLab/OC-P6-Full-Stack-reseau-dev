@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
+/** Mobile-only header for guest routes, with a back button to return to home. */
 @Component({
   selector: 'header-mobile-guest',
   imports: [],

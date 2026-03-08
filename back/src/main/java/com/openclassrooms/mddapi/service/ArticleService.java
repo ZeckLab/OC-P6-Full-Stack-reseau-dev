@@ -18,6 +18,10 @@ import com.openclassrooms.mddapi.mapper.ArticleMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Service handling business logic related to articles,
+ * including feed retrieval, article creation, and article lookup.
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -28,6 +32,13 @@ public class ArticleService {
     private final TopicService topicService;
     private final ArticleMapper articleMapper;
 
+    /**
+     * Retrieves a personalized feed for the currently authenticated user.
+     * Articles are filtered by the user's subscribed topics and sorted by creation date.
+     *
+     * @param sort the sorting direction ("asc" or "desc")
+     * @return a list of Article entities matching the user's feed
+     */
     public List<Article> getFeedForCurrentUser(String sort) {
         User user = userService.getCurrentUser();
         log.info("getFeedForCurrentUser - Retrieving articles for user '{}'", user.getUsername());
@@ -38,6 +49,12 @@ public class ArticleService {
         return articleRepository.findByTopicIn(user.getSubscriptions(), sortOrder);
     }
 
+    /**
+     * Creates a new article authored by the currently authenticated user.
+     *
+     * @param createArticleDto the payload containing article title, content, and topic ID
+     * @return the newly created Article entity
+     */
     public Article createArticle(CreateArticleDTO createArticleDto) {
         User user = userService.getCurrentUser();
         log.info("createArticle - Creating article for user '{}'", user.getUsername());
@@ -51,6 +68,13 @@ public class ArticleService {
         return articleRepository.save(article);
     }
 
+    /**
+     * Retrieves an article by its ID.
+     *
+     * @param id the ID of the article to retrieve
+     * @return the Article entity
+     * @throws NotFoundException if no article is found with the given ID
+     */
     public Article getArticleById(Long id) {
         log.info("getArticleById - Retrieving article with id={}", id);
         return articleRepository.findById(id)

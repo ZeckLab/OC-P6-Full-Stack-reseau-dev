@@ -8,6 +8,9 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+/**
+ * DTO used for updating the authenticated user's account information.
+ */
 @Data
 public class UpdateUserDTO {
     @Email(message = ErrorMessages.EMAIL_INVALID)

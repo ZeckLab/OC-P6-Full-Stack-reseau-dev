@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { Auth } from '../../modules/auth/auth';
+import { Auth } from '../../modules/auth/services/auth';
 
 // Route guard that prevents access to protected routes if the user is not authenticated
 export const authGuard: CanActivateFn = () => {

@@ -1,11 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Auth } from '../../auth';
-import { AuthValidators } from '../../validators/auth.validator';
+import { Auth } from '../../services/auth';
+import { AuthValidators } from '../../../../shared/validators/auth.validator';
 import { ErrorMapper } from '../../../../core/messages/error-mapper';
 import { ToastService } from '../../../../shared/ui/toast/toast.service';
+import { FORM_MESSAGES } from '../../../../core/messages/form-messages';
 
+/** Registration page: handles user account creation and validation. */
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -20,14 +22,16 @@ export class Register {
   private readonly errorMapper = inject(ErrorMapper);
   private readonly toast = inject(ToastService);
 
+  readonly FORM_MESSAGES = FORM_MESSAGES;
+
   // Reactive registration form with custom validators
   readonly form = this.fb.group({
     email: ['', AuthValidators.email],
     username: ['', [Validators.required, Validators.minLength(3)]],
-    password: ['', AuthValidators.password],
+    password: ['', AuthValidators.password(true)],
   });
 
-  // Handles form submission and triggers registration
+  /** Submits registration data and displays success/error feedback. */
   submit() {
     if (this.form.invalid) return;
 
@@ -46,7 +50,7 @@ export class Register {
     });
   }
 
-  // Navigate back to the home page
+  /** Navigates back to the home page. */
   goBack() {
     this.router.navigate(['/']);
   }

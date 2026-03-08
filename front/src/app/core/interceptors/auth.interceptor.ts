@@ -1,13 +1,18 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { Auth } from '../../modules/auth/auth';
+import { Auth } from '../../modules/auth/services/auth';
 import { environment } from '../../../environment';
 import { catchError, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastService } from '../../shared/ui/toast/toast.service';
 import { MESSAGES } from '../messages/constants';
 
-// Intercepts outgoing HTTP requests to attach API URL and auth token
+/**
+ * Global HTTP interceptor.
+ * - Prefixes API URLs
+ * - Attaches JWT token
+ * - Handles invalid/expired tokens
+ */
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const auth = inject(Auth);
   const toast = inject(ToastService);
@@ -34,18 +39,17 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   });
 
   return next(authReq).pipe(
-  catchError((error) => {
-    const message = error.error?.message;
+    catchError((error) => {
+      const message = error.error?.message;
 
-    // Handle invalid or expired JWT
-    if (message === 'Invalid token') {
-      toast.show(MESSAGES.INVALID_TOKEN, 'error');
-      auth.logout();
-      router.navigate(['/auth/login']);
-    }
+      // Handle invalid or expired JWT
+      if (message === 'Invalid token') {
+        toast.show(MESSAGES.INVALID_TOKEN, 'error');
+        auth.logout();
+        router.navigate(['/auth/login']);
+      }
 
-    return throwError(() => error);
-  }),
-);
-
+      return throwError(() => error);
+    }),
+  );
 };

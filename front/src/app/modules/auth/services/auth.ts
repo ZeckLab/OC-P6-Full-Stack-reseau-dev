@@ -1,10 +1,13 @@
 import { inject, Injectable, signal, computed } from '@angular/core';
 import { AuthApi } from './auth.api';
-import { LoginRequest, RegisterRequest } from './models/auth.model';
+import { LoginRequest, RegisterRequest } from '../models/auth.model';
 import { tap } from 'rxjs';
 import { Router } from '@angular/router';
 
-// Central authentication service: manages token state, session persistence, and navigation.
+/**
+ * Central authentication facade.
+ * Manages JWT token, session persistence and navigation after auth actions.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -12,7 +15,7 @@ export class Auth {
   private readonly api = inject(AuthApi);
   private readonly router = inject(Router);
 
-  // // Token stored as a signal to enable reactive UI updates across the app.
+  // Token stored as a signal to enable reactive UI updates across the app.
   private readonly _token = signal<string | null>(null);
 
   token = this._token.asReadonly();
@@ -22,7 +25,7 @@ export class Auth {
     this.restoreSession();
   }
 
-  // Business Logic Methods Exposed to UI
+  /** Performs login, stores JWT and redirects to feed. */
   login(data: LoginRequest) {
     return this.api.login(data).pipe(
       tap((res) => {
@@ -33,6 +36,7 @@ export class Auth {
     );
   }
 
+  /** Restores JWT from localStorage on app startup. */
   register(data: RegisterRequest) {
     return this.api.register(data).pipe(
       tap(() => {
@@ -52,6 +56,11 @@ export class Auth {
 
   getToken(): string | null {
     return this._token();
+  }
+
+  setToken(newToken: string) {
+    this._token.set(newToken);
+    localStorage.setItem('token', newToken);
   }
 
   // Restore token from localStorage on app startup.

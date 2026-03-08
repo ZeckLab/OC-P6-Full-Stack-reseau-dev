@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Generic API response wrapper containing a message, status code, and timestamp.
+ */
 @Getter
 @RequiredArgsConstructor
 public class ApiResponseDTO {

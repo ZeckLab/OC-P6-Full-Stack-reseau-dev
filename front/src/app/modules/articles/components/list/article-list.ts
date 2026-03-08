@@ -2,6 +2,7 @@ import { Component, input, OnChanges, SimpleChanges } from '@angular/core';
 import { Article } from '../../models/article.model';
 import { ArticleCard } from '../card/article-card';
 
+/** Displays a grid of article cards or an empty state when no articles exist. */
 @Component({
   selector: 'app-article-list',
   imports: [ArticleCard],

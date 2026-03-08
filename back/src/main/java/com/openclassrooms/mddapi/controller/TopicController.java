@@ -24,6 +24,11 @@ import com.openclassrooms.mddapi.service.UserService;
 
 import org.springframework.web.bind.annotation.PostMapping;
 
+/**
+ * REST controller responsible for managing topics and user subscriptions.
+ * Provides endpoints for retrieving topics, checking subscription status,
+ * and subscribing or unsubscribing the current user from a topic.
+ */
 @Slf4j
 @RestController
 @RequestMapping("/topics")
@@ -34,6 +39,11 @@ public class TopicController {
     private final TopicMapper topicMapper;
     private final UserService userService;
 
+    /**
+     * Retrieves all available topics.
+     *
+     * @return a list of TopicDTO objects representing all topics
+     */
     @GetMapping
     public ResponseEntity<List<TopicDTO>> getTopics() {
         log.info("GET /topics - Fetching all topics");
@@ -44,8 +54,12 @@ public class TopicController {
         return ResponseEntity.ok(topics);
     }
 
-    // We fetch all topics without filtering: the subscription logic is handled
-    // at mapping time (TopicMapper) using the current user as context.
+    /**
+     * Retrieves all topics along with the subscription status
+     * for the currently authenticated user.
+     *
+     * @return a list of TopicWithSubscriptionDto objects including subscription information
+     */
     @GetMapping("/me")
     public ResponseEntity<List<TopicWithSubscriptionDto>> getAllTopicsWithCurrentUserSubscriptionStatus() {
         log.info("GET /topics/me - Fetching all topics with subscription status for current user");
@@ -56,6 +70,12 @@ public class TopicController {
         return ResponseEntity.ok(topicMapper.toTopicWithSubscriptionDtoList(topics, userService.getCurrentUser()));
     }
 
+    /**
+     * Subscribes the current user to the specified topic.
+     *
+     * @param id the ID of the topic to subscribe to
+     * @return ApiResponseDTO indicating whether the subscription was successful
+     */
     @PostMapping("/{id}/subscribe")
     public ResponseEntity<ApiResponseDTO> subscribe(@PathVariable Long id) {
         log.info("POST /topics/{}/subscribe - Subscription request receive", id);
@@ -73,6 +93,12 @@ public class TopicController {
         }
     }
 
+    /**
+     * Unsubscribes the current user from the specified topic.
+     *
+     * @param id the ID of the topic to unsubscribe from
+     * @return ApiResponseDTO indicating whether the unsubscription was successful
+     */
     @DeleteMapping("/{id}/subscribe")
     public ResponseEntity<ApiResponseDTO> unsubscribe(@PathVariable Long id) {
         log.info("DELETE /topics/{}/unsubscribe - Unsubscription request receive", id);

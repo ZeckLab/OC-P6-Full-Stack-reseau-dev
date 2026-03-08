@@ -6,6 +6,9 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+/**
+ * DTO representing the authenticated user's public profile information.
+ */
 @Data
 @JsonPropertyOrder({ "id", "email", "username" })
 public class UserDTO {

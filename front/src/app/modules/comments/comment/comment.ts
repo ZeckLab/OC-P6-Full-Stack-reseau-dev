@@ -2,6 +2,7 @@ import { Component, input } from '@angular/core';
 import { Comment } from '../models/comment.model';
 import { DatePipe } from '@angular/common';
 
+/** Displays a single comment with author and date. */
 @Component({
   selector: 'app-comment',
   imports: [DatePipe],

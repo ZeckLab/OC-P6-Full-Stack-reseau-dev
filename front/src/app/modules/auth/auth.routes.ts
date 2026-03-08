@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 
+// Lazy-loaded standalone components for authentication pages
 export const AUTH_ROUTES: Routes = [
   {
     path: 'login',
