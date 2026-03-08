@@ -1,6 +1,7 @@
 import { Component, input, output } from '@angular/core';
 import { TopicWithSubscription } from '../../models/topic.response';
 
+/** Displays a single topic with its subscription button. */
 @Component({
   selector: 'app-topic-card',
   template: `
@@ -9,11 +10,11 @@ import { TopicWithSubscription } from '../../models/topic.response';
       <p>{{ topic().description }}</p>
 
       <button
-        [class.subscribed]="topic().subscribed"
-        [disabled]="topic().subscribed"
+        [class.subscribed]="!isUnsubscribe() && topic().subscribed"
+        [disabled]="!isUnsubscribe() && topic().subscribed"
         (click)="onToggle()"
       >
-        {{ topic().subscribed ? 'Déjà abonné' : 'S’abonner' }}
+       {{ isUnsubscribe() ? 'Se désabonner' : (topic().subscribed ? 'Déjà abonné' : 'S’abonner') }}
       </button>
     </div>
   `,
@@ -106,11 +107,12 @@ export class TopicCard {
   // Topic with subscription status to render
   topic = input.required<TopicWithSubscription>();
   // Emits when the user requests to toggle subscription for this topic
-  toggle = output<TopicWithSubscription>();
+  toggled = output<TopicWithSubscription>();
+
+  isUnsubscribe = input<boolean>(false);
+
 
   onToggle() {
-    if (!this.topic().subscribed) {
-      this.toggle.emit(this.topic());
-    }
+    this.toggled.emit(this.topic());
   }
 }

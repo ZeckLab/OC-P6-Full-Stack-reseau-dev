@@ -22,9 +22,9 @@
         && form.controls.email.errors) {
         <p class="error">
           @if (form.controls.email.errors['required']) {
-            Ce champ est requis
+            {{ FORM_MESSAGES.REQUIRED }}
           } @else if (form.controls.email.errors['emailInvalid']) {
-            Email invalide
+            {{ FORM_MESSAGES.EMAIL_INVALID }}
           }
         </p>
       }
@@ -41,9 +41,9 @@
         && form.controls.username.errors) {
         <p class="error">
           @if (form.controls.username.errors['required']) {
-            Ce champ est requis
+            {{ FORM_MESSAGES.REQUIRED }}
           } @else if (form.controls.username.errors['minlength']) {
-            Nom d'utilisateur invalide
+            {{ FORM_MESSAGES.USERNAME_INVALID }}
           }
         </p>
       }
@@ -60,28 +60,28 @@
         && form.controls.password.errors) {
         <ul class="error">
           @if (form.controls.password.errors['required']) {
-            <li>Ce champ est requis</li>
+            <li>{{ FORM_MESSAGES.REQUIRED }}</li>
           }
           @if (!form.controls.password.errors['passwordWeak'].hasLowercase) {
-            <li>Doit contenir une lettre minuscule</li>
+            <li>{{ FORM_MESSAGES.PASSWORD.LOWERCASE }}</li>
           }
           @if (!form.controls.password.errors['passwordWeak'].hasUppercase) {
-            <li>Doit contenir une lettre majuscule</li>
+            <li>{{ FORM_MESSAGES.PASSWORD.UPPERCASE }}</li>
           }
           @if (!form.controls.password.errors['passwordWeak'].hasDigit) {
-            <li>Doit contenir un chiffre</li>
+            <li>{{ FORM_MESSAGES.PASSWORD.DIGIT }}</li>
           }
           @if (!form.controls.password.errors['passwordWeak'].hasSpecial) {
-            <li>Doit contenir un caractère spécial</li>
+            <li>{{ FORM_MESSAGES.PASSWORD.SPECIAL }}</li>
           }
           @if (!form.controls.password.errors['passwordWeak'].hasMinLength) {
-            <li>Doit contenir au moins 8 caractères</li>
+            <li>{{ FORM_MESSAGES.PASSWORD.MIN_LENGTH }}</li>
           }
         </ul>
       }
 
       <!-- Submit button -->
-      <button type="submit" [disabled]="form.invalid">Se connecter</button>
+      <button type="submit" [disabled]="form.invalid">S'inscrire</button>
     </form>
   </div>
 

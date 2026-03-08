@@ -32,6 +32,7 @@
         placeholder="Écrivez ici votre commentaire"
         [value]="newComment()"
         (input)="newComment.set($any($event.target).value)"
+        (keydown.enter)="sendComment()"
       />
 
       <button class="send" (click)="sendComment()">

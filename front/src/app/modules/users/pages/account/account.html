@@ -1,0 +1,23 @@
+<div class="profile-layout">
+  <h2 class="title">Profil Utilisateur</h2>
+
+  @if (!editMode()) {
+    <app-account-info-view [user]="user()" (edit)="enableEdit()"/>
+  } @else {
+    <app-account-info-edit [form]="form" [canSave]="canSave()" (save)="save()"/>
+  }
+
+  <hr />
+
+  <h2 class="title">Abonnements</h2>
+
+  @if (subscribedTopics().length === 0) {
+    <p>Vous n'êtes abonné à aucun thème.</p>
+  }
+
+  <app-topics-list
+    [topics]="subscribedTopics()"
+    [isUnsubscribe]="true"
+    (toggled)="onToggle($event)"
+  />
+</div>

@@ -22,9 +22,9 @@
         && form.controls.emailOrUsername.errors) {
         <p class="error">
           @if (form.controls.emailOrUsername.errors['required']) {
-            Ce champ est requis
+            {{ FORM_MESSAGES.REQUIRED }}
           } @else if (form.controls.emailOrUsername.errors['emailInvalid']) {
-            Email invalide
+            {{ FORM_MESSAGES.EMAIL_INVALID }}
           }
         </p>
       }
@@ -41,7 +41,7 @@
         && form.controls.password.errors) {
         <p class="error">
           @if (form.controls.password.errors['required']) {
-            Ce champ est requis
+            {{ FORM_MESSAGES.REQUIRED }}
           }
         </p>
       }

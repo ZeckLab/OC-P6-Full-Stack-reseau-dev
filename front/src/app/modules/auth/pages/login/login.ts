@@ -1,11 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Auth } from '../../auth';
+import { Auth } from '../../services/auth';
 import { Router } from '@angular/router';
-import { AuthValidators } from '../../validators/auth.validator';
+import { AuthValidators } from '../../../../shared/validators/auth.validator';
 import { ToastService } from '../../../../shared/ui/toast/toast.service';
 import { ErrorMapper } from '../../../../core/messages/error-mapper';
+import { FORM_MESSAGES } from '../../../../core/messages/form-messages';
 
+/** Login page: handles user authentication and form validation. */
 @Component({
   selector: 'app-login',
   imports: [ReactiveFormsModule],
@@ -19,13 +21,15 @@ export class Login {
   private readonly errorMapper = inject(ErrorMapper);
   private readonly toast = inject(ToastService);
 
+  readonly FORM_MESSAGES = FORM_MESSAGES;
+
   // Reactive login form with custom validators
   readonly form = this.fb.group({
     emailOrUsername: ['', [AuthValidators.emailOrUsername]],
     password: ['', Validators.required],
   });
 
-  // Handles form submission and triggers authentication
+  /** Submits login credentials and handles success/error feedback. */
   submit() {
     if (this.form.invalid) return;
 
@@ -48,7 +52,7 @@ export class Login {
       });
   }
 
-  // Navigate back to the home page
+  /** Navigates back to the home page. */
   goBack() {
     this.router.navigate(['/']);
   }

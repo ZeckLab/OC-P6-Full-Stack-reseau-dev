@@ -1,3 +1,5 @@
+import { CommentResponse } from "../../comments/models/comment.response";
+
 export interface ArticleResponse {
   id: string;
   title: string;
@@ -5,4 +7,5 @@ export interface ArticleResponse {
   authorUsername: string;
   topicName: string;
   createdAt: string;
+  comments: CommentResponse[];
 }

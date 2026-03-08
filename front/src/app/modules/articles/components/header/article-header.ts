@@ -2,6 +2,7 @@ import { Component, input } from '@angular/core';
 import { Article } from '../../models/article.model';
 import { DatePipe } from '@angular/common';
 
+/** Displays an article header with configurable layout (title, metadata, topic, sizes). */
 @Component({
   selector: 'app-article-header',
   imports: [DatePipe],

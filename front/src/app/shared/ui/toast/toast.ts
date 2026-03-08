@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ToastService } from './toast.service';
 
+/** Global toast notification service using signals for message and type. */
 @Component({
   selector: 'app-toast',
   standalone: true,
@@ -70,5 +71,6 @@ import { ToastService } from './toast.service';
   ],
 })
 export class Toast {
+  // Injected toast service providing message and type
   toast = inject(ToastService);
 }

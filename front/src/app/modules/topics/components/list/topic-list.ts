@@ -2,13 +2,14 @@ import { Component, input, output } from "@angular/core";
 import { TopicCard } from "../card/topic-card";
 import { TopicWithSubscription } from "../../models/topic.response";
 
+/** Displays a grid of topics and emits subscription toggle events. */
 @Component({
   selector: 'app-topics-list',
   imports: [TopicCard],
   template: `
     <div class="topics-grid">
       @for (t of topics(); track t.id) {
-        <app-topic-card [topic]="t" (toggle)="toggle.emit($event)"></app-topic-card>
+        <app-topic-card [topic]="t" [isUnsubscribe]="isUnsubscribe()"   (toggled)="toggled.emit($event)"></app-topic-card>
       }
     </div>
   `,
@@ -31,5 +32,7 @@ export class TopicList {
   // List of topics with subscription status to display
   topics = input.required<TopicWithSubscription[]>();
   // Emits when the user toggles subscription for a topic
-  toggle = output<TopicWithSubscription>()
+  toggled = output<TopicWithSubscription>();
+
+  isUnsubscribe = input<boolean>(false);
 }

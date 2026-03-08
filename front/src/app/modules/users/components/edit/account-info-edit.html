@@ -1,0 +1,60 @@
+<form class="profile-form" [formGroup]="form()" (ngSubmit)="submit()">
+  <input type="text" formControlName="username" placeholder="Username" />
+
+  @if (
+    form().controls['username'].invalid &&
+    (form().controls['username'].dirty || form().controls['username'].touched)
+  ) {
+    <p class="error">
+      @if (form().controls['username'].errors?.['required']) {
+        {{ FORM_MESSAGES.REQUIRED }}
+      } @else if (form().controls['username'].errors?.['minlength']) {
+        {{ FORM_MESSAGES.USERNAME_INVALID }}
+      }
+    </p>
+  }
+
+  <input type="text" formControlName="email" placeholder="'toto@toto.com'" />
+
+  @if (
+    form().controls['email'].invalid &&
+    (form().controls['email'].dirty || form().controls['email'].touched)
+  ) {
+    <p class="error">
+      @if (form().controls['email'].errors?.['required']) {
+        {{ FORM_MESSAGES.REQUIRED }}
+      } @else if (form().controls['email'].errors?.['emailInvalid']) {
+        {{ FORM_MESSAGES.EMAIL_INVALID }}
+      }
+    </p>
+  }
+
+  <input type="password" formControlName="password" placeholder="Mot de passe" />
+
+  @if (
+    form().controls['password'].invalid &&
+    (form().controls['password'].dirty || form().controls['password'].touched) &&
+    form().controls['password'].errors &&
+    form().controls['password'].value
+  ) {
+    <ul class="error">
+      @if (!form().controls['password'].errors?.['passwordWeak']?.hasLowercase) {
+        <li>{{ FORM_MESSAGES.PASSWORD.LOWERCASE }}</li>
+      }
+      @if (!form().controls['password'].errors?.['passwordWeak']?.hasUppercase) {
+        <li>{{ FORM_MESSAGES.PASSWORD.UPPERCASE }}</li>
+      }
+      @if (!form().controls['password'].errors?.['passwordWeak']?.hasDigit) {
+        <li>{{ FORM_MESSAGES.PASSWORD.DIGIT }}</li>
+      }
+      @if (!form().controls['password'].errors?.['passwordWeak']?.hasSpecial) {
+        <li>{{ FORM_MESSAGES.PASSWORD.SPECIAL }}</li>
+      }
+      @if (!form().controls['password'].errors?.['passwordWeak']?.hasMinLength) {
+        <li>{{ FORM_MESSAGES.PASSWORD.MIN_LENGTH }}</li>
+      }
+    </ul>
+  }
+
+  <button type="submit" [disabled]="!canSave()">Sauvegarder</button>
+</form>

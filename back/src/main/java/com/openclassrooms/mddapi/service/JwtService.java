@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service responsible for generating JWT tokens using asymmetric encryption (RS256).
+ * Tokens include basic claims such as subject, issuer, issuance time, and expiration.
+ */
 @Service
 public class JwtService {
 
@@ -19,10 +23,13 @@ public class JwtService {
     }
 
     /**
-     * Generates a JWT token using RS256 and the user's username as the subject.
+     * Generates a signed JWT token using RS256, with the provided username as the subject.
      * <p>
-     * This method does not rely on a full Authentication object,
-     * as the application does not implement role or permission management.
+     * This method does not rely on a full Authentication object since the application
+     * does not implement role or permission management.
+     *
+     * @param username the username to include as the token subject
+     * @return a signed JWT token string
      */
     public String generateToken(String username) {
 

@@ -3,6 +3,7 @@ import { Article } from '../../models/article.model';
 import { ArticleHeader } from '../header/article-header';
 import { Router } from '@angular/router';
 
+/** Displays a compact preview of an article inside the feed. */
 @Component({
   selector: 'app-article-card',
   imports: [ArticleHeader],

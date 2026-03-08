@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { CommentResponse } from './models/comment.response';
+import { CommentResponse } from '../models/comment.response';
 
 @Injectable({ providedIn: 'root' })
 export class CommentsApi {

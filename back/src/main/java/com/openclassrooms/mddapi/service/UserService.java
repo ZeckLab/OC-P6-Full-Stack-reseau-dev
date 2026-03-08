@@ -17,6 +17,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import com.openclassrooms.mddapi.constants.ErrorMessages;
 
+/**
+ * Service responsible for managing user-related operations,
+ * including retrieving the authenticated user and updating user account information.
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -26,6 +30,12 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
+    /**
+     * Retrieves the currently authenticated user based on the security context.
+     *
+     * @return the authenticated User entity
+     * @throws BadRequestException if no authenticated user is found
+     */
     public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -41,6 +51,14 @@ public class UserService {
                 .orElseThrow(() -> new BadRequestException(ErrorMessages.USER_NOT_FOUND + username));
     }
 
+    /**
+     * Updates the authenticated user's account information.
+     * Supports updating email, username, and password, with uniqueness checks where applicable.
+     *
+     * @param updateUserDTO the payload containing the fields to update
+     * @return the updated User entity
+     * @throws BadRequestException if the new email or username is already in use
+     */
     public User updateUser(UpdateUserDTO updateUserDTO) {
         User user = getCurrentUser();
         String username = user.getUsername();

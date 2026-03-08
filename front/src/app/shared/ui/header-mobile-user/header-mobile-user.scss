@@ -86,18 +86,37 @@
       padding-right: 1rem;
 
       .profile-icon {
-        width: 3.75rem;
-        height: 3.75rem;
-        background: #e0e0e0;
-        border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
+        width: 3rem;
+        height: 3rem;
+        background: #e0e0e0;
+        border: 2px solid transparent;
+        border-radius: 50%;
+        transition: border-color 0.2s ease;
 
-        img {
-          width: 2rem;
-          height: 2rem;
+        &:hover {
+          background-color: rgba(119, 99, 197, 0.12);
         }
+      }
+
+      .profile-icon-svg {
+        color: rgba(0, 0, 0, 0.5);
+        transition: color 0.2s ease;
+      }
+
+      .profile-icon:hover .profile-icon-svg {
+        color: #7763c5;
+      }
+
+      .profile-icon.active-profile .profile-icon-svg {
+        color: #7763c5;
+      }
+
+      .profile-icon.active-profile {
+        border-color: #7763c5;
+        background-color: rgba(119, 99, 197, 0.12);
       }
     }
   }

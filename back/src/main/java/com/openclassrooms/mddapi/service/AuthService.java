@@ -13,6 +13,10 @@ import com.openclassrooms.mddapi.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Service responsible for handling user authentication and registration logic.
+ * Ensures that new accounts meet uniqueness constraints and securely stores passwords.
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -22,6 +26,13 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
+    /**
+     * Registers a new user account.
+     * Validates that the email and username are unique before creating the user.
+     *
+     * @param registerDto the registration payload containing email, username, and password
+     * @throws BadRequestException if the email or username is already in use
+     */
     public void register(RegisterDTO registerDto) {
 
         if (userRepository.existsByEmail(registerDto.getEmail())) {

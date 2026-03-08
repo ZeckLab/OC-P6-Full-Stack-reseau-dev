@@ -3,18 +3,58 @@
     <img src="/assets/images/mdd-logo.png" alt="Logo" />
   </div>
 
-  <button class="burger-btn" (click)="toggleMenu()">☰</button>
-    <nav class="mobile-menu" [class.open]="menuOpen()">
-      <div class="menu-items">
-        <a (click)="logout()" class="logout-link">Se déconnecter</a>
-        <a routerLink="/articles/feed" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }" (click)="menuOpen.set(false)">Articles</a>
-        <a routerLink="/topics" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }" (click)="menuOpen.set(false)">Thèmes</a>
-      </div>
+  <button class="burger-btn" #burgerRef (click)="toggleMenu()">☰</button>
+  <nav class="mobile-menu" #menuRef [class.open]="menuOpen()">
+    <div class="menu-items">
+      <a (click)="logout()" class="logout-link">Se déconnecter</a>
+      <a
+        routerLink="/articles/feed"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="menuOpen.set(false)"
+        >Articles</a
+      >
+      <a
+        routerLink="/topics"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="menuOpen.set(false)"
+        >Thèmes</a
+      >
+    </div>
 
-      <div class="menu-footer">
-        <a class="profile-icon" routerLink="/profile" (click)="menuOpen.set(false)">
-          <img src="/assets/images/profile.svg" alt="Profil" />
-        </a>
-      </div>
-    </nav>
+    <div class="menu-footer">
+      <a
+        class="profile-icon"
+        routerLink="/account"
+        routerLinkActive="active-profile"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="menuOpen.set(false)"
+      >
+        <svg
+          class="profile-icon-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          width="27"
+          height="30"
+          viewBox="0 0 27 30"
+          fill="none"
+        >
+          <path
+            d="M1 29V25.88c0-1.65.66-3.24 1.83-4.41A6.24 6.24 0 0 1 7.24 19.64h12.47a6.24 6.24 0 0 1 4.41 1.83c1.17 1.17 1.83 2.76 1.83 4.41V29"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M13.47 13.47a6.24 6.24 0 1 1 0-12.47 6.24 6.24 0 0 1 0 12.47Z"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </a>
+    </div>
+  </nav>
 </header>

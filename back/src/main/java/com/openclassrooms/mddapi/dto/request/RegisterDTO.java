@@ -9,6 +9,9 @@ import lombok.Data;
 import com.openclassrooms.mddapi.constants.ErrorMessages;
 import com.openclassrooms.mddapi.constants.AppMessages;
 
+/**
+ * DTO used for registering a new user account.
+ */
 @Data
 public class RegisterDTO{
     @NotBlank(message = ErrorMessages.EMAIL_REQUIRED)

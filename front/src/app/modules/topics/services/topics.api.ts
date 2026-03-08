@@ -1,10 +1,11 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Topic } from './models/topic.model';
-import { TopicWithSubscription } from './models/topic.response';
-import { ApiResponse } from '../../core/messages/api.response';
+import { Topic } from '../models/topic.model';
+import { TopicWithSubscription } from '../models/topic.response';
+import { ApiResponse } from '../../../core/messages/api.response';
 
+/** Provides HTTP methods to fetch topics and manage user subscriptions. */
 @Injectable({
   providedIn: 'root',
 })
@@ -37,6 +38,6 @@ export class TopicsApi {
    * Unsubscribes the current user from the given topic
    */
   unsubscribe(topicId: string): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${this.topicsUrl}/${topicId}/unsubscribe`, {});
+    return this.http.delete<ApiResponse>(`${this.topicsUrl}/${topicId}/subscribe`, {});
   }
 }
