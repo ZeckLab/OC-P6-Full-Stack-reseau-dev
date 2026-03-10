@@ -35,7 +35,7 @@ export class ArticleCreate implements OnInit {
   topics = this.topicsFacade.topics;
 
   ngOnInit() {
-    this.topicsFacade.getAll();
+    this.topicsFacade.getAll().subscribe();
   }
 
   // Handles form submission and triggers article creation
