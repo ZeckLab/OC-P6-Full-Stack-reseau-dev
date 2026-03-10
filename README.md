@@ -1,6 +1,13 @@
 # 🌐 MDD — Developer Social Network (MVP)
 ### Student Project — OpenClassrooms
 
+![Java](https://img.shields.io/badge/Java-21-blue)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.2-brightgreen)
+![Angular](https://img.shields.io/badge/Angular-21-red)
+![Node.js](https://img.shields.io/badge/Node.js-20.20-green)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-blue)
+![Status](https://img.shields.io/badge/Project-MVP-success)
+
 This repository contains the full‑stack MVP of **MDD (Monde de Dév)**, a fictional developer‑focused social network built as part of an OpenClassrooms training project.
 
 The goal of this MVP is to deliver a minimal but functional version of the platform, allowing users to:
